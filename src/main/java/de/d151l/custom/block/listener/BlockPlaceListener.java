@@ -2,7 +2,6 @@ package de.d151l.custom.block.listener;
 
 import de.d151l.custom.block.CustomBlocks;
 import de.d151l.custom.block.config.CustomBlockConfig;
-import de.d151l.custom.block.config.NoteBlockConfig;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
@@ -71,9 +70,7 @@ public class BlockPlaceListener implements Listener {
                 event.getBlock().getLocation().getBlockZ()
         );
 
-        Bukkit.getScheduler().runTask(this.plugin, () -> {
-            this.plugin.getCustomBlockHandler().placeCustomBlock(customBlockConfig, location);
-        });
+        Bukkit.getScheduler().runTask(this.plugin, () -> this.plugin.getCustomBlockHandler().placeCustomBlock(customBlockConfig, location));
 
         if (player.getGameMode().equals(GameMode.CREATIVE))
             return;

@@ -2,11 +2,13 @@ package de.d151l.custom.block.config.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.d151l.custom.block.CustomBlocks;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.logging.Level;
 
 /*
 * This class is copied from https://github.com/BALTIC-GALAXY/utilities/blob/master/src/main/java/de/baltic/utilities/file/ConfigMapper.java
@@ -36,8 +38,8 @@ public class ConfigMapper {
             );
             fileWriter.flush();
             fileWriter.close();
-        } catch (IOException e) {
-
+        } catch (IOException exception) {
+            CustomBlocks.getInstance().getLogger().log(Level.ALL, "Could not write to file " + fileName + "!", exception);
         }
     }
 

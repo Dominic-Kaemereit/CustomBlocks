@@ -39,7 +39,7 @@ public class BlockBreakListener implements Listener {
         if (block.getType() != Material.NOTE_BLOCK)
             return;
 
-        if (!this.plugin.getCustomBlockHandler().isCustomBlock(block))
+        if (this.plugin.getCustomBlockHandler().isNotCustomBlock(block))
             return;
 
         event.setCancelled(true);

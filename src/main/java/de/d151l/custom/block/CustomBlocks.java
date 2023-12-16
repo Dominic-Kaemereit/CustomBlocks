@@ -10,6 +10,8 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public class CustomBlocks extends JavaPlugin {
 
     private static CustomBlocks instance;
@@ -23,15 +25,11 @@ public class CustomBlocks extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        this.getCommand("cgive").setExecutor(new CGiveCommand(this));
+        Objects.requireNonNull(this.getCommand("cgive")).setExecutor(new CGiveCommand(this));
 
         this.getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
         this.getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
         this.getServer().getPluginManager().registerEvents(new NoteBlockProtectionListener(this), this);
-    }
-
-    @Override
-    public void onDisable() {
     }
 
     /**

@@ -1,7 +1,6 @@
 package de.d151l.custom.block.listener;
 
 import de.d151l.custom.block.CustomBlocks;
-import io.papermc.paper.event.world.WorldGameRuleChangeEvent;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,7 +22,7 @@ public class NoteBlockProtectionListener implements Listener {
         if (block.getType() != org.bukkit.Material.NOTE_BLOCK)
             return;
 
-        if (!this.plugin.getCustomBlockHandler().isCustomBlock(block))
+        if (this.plugin.getCustomBlockHandler().isNotCustomBlock(block))
             return;
 
         event.setCancelled(true);
@@ -36,7 +35,7 @@ public class NoteBlockProtectionListener implements Listener {
         if (block.getType() != org.bukkit.Material.NOTE_BLOCK)
             return;
 
-        if (!this.plugin.getCustomBlockHandler().isCustomBlock(block))
+        if (this.plugin.getCustomBlockHandler().isNotCustomBlock(block))
             return;
 
         event.setNewCurrent(event.getOldCurrent());

@@ -9,10 +9,7 @@ import java.util.logging.Level;
 
 public class TagHandler {
 
-    private final CustomBlocks plugin;
-
     public TagHandler(CustomBlocks plugin) {
-        this.plugin = plugin;
 
         try {
             new CustomTagsConfig(ConfigMapper.getOrCreate(

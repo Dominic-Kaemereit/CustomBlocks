@@ -29,8 +29,6 @@ public class CustomBlockHandler {
 
     private final CustomBlocks plugin;
 
-    private final File blocksFolder;
-
     private final MiniMessage miniMessage;
 
     private final Map<String, CustomBlocksConfig> customBlocks = new HashMap<>();
@@ -55,30 +53,30 @@ public class CustomBlockHandler {
                 ).build();
 
         final String dataFolder = this.plugin.getDataFolder().getPath();
-        this.blocksFolder = new File(dataFolder + "/blocks");
+        File blocksFolder = new File(dataFolder + "/blocks");
 
-        if (!this.blocksFolder.exists())
-            this.blocksFolder.mkdirs();
+        if (!blocksFolder.exists())
+            blocksFolder.mkdirs();
 
-        if (!this.blocksFolder.isDirectory())
+        if (!blocksFolder.isDirectory())
             throw new RuntimeException("Could not create blocks folder!");
 
-        if (!this.blocksFolder.canRead())
+        if (!blocksFolder.canRead())
             throw new RuntimeException("Could not read blocks folder!");
 
-        if (!this.blocksFolder.canWrite())
+        if (!blocksFolder.canWrite())
             throw new RuntimeException("Could not write to blocks folder!");
 
-        if (!this.blocksFolder.canExecute())
+        if (!blocksFolder.canExecute())
             throw new RuntimeException("Could not execute blocks folder!");
 
-        if (this.blocksFolder.listFiles() == null)
+        if (blocksFolder.listFiles() == null)
             throw new RuntimeException("Could not list files in blocks folder!");
 
-        if (Objects.requireNonNull(this.blocksFolder.listFiles()).length == 0) {
+        if (Objects.requireNonNull(blocksFolder.listFiles()).length == 0) {
             try {
                 ConfigMapper.writeJson(
-                        this.blocksFolder,
+                        blocksFolder,
                         "stones.json",
                         new CustomBlocksConfig()
                 );
@@ -87,13 +85,13 @@ public class CustomBlockHandler {
             }
         }
 
-        for (File file : Objects.requireNonNull(this.blocksFolder.listFiles())) {
+        for (File file : Objects.requireNonNull(blocksFolder.listFiles())) {
             if (!file.getName().endsWith(".json"))
                 continue;
 
             try {
                 final CustomBlocksConfig blocksConfig = ConfigMapper.getOrCreate(
-                        this.blocksFolder,
+                        blocksFolder,
                         file.getName(),
                         new CustomBlocksConfig(),
                         CustomBlocksConfig.class
@@ -190,9 +188,9 @@ public class CustomBlockHandler {
      * @param block The block to check.
      * @return Whether a block is a custom block.
      */
-    public boolean isCustomBlock(final Block block) {
+    public boolean isNotCustomBlock(final Block block) {
         final CustomBlockData customBlockData = new CustomBlockData(block, plugin);
-        return customBlockData.has(this.isCustomBlockNamespacedKey, PersistentDataType.BOOLEAN);
+        return !customBlockData.has(this.isCustomBlockNamespacedKey, PersistentDataType.BOOLEAN);
     }
 
     /**
