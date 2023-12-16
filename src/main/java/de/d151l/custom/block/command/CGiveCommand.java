@@ -2,6 +2,8 @@ package de.d151l.custom.block.command;
 
 import de.d151l.custom.block.CustomBlocks;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,10 +18,20 @@ public class CGiveCommand implements CommandExecutor, TabCompleter {
 
     private final CustomBlocks plugin;
 
-    private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private final MiniMessage miniMessage;
 
     public CGiveCommand(CustomBlocks plugin) {
         this.plugin = plugin;
+
+        this.miniMessage = MiniMessage.builder()
+                .tags(
+                        TagResolver.builder()
+                                .resolver(this.plugin.getPrefix())
+                                .resolver(StandardTags.color())
+                                .resolver(StandardTags.decorations())
+                                .resolver(StandardTags.font())
+                                .build()
+                ).build();
     }
 
     @Override

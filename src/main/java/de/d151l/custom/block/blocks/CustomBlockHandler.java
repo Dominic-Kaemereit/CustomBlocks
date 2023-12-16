@@ -6,6 +6,8 @@ import de.d151l.custom.block.config.CustomBlocksConfig;
 import de.d151l.custom.block.config.json.ConfigMapper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,12 +23,22 @@ public class CustomBlockHandler {
 
     private final File blocksFolder;
 
-    private final Map<String, CustomBlocksConfig> customBlocks = new HashMap<>();
+    private final MiniMessage miniMessage;
 
-    private final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private final Map<String, CustomBlocksConfig> customBlocks = new HashMap<>();
 
     public CustomBlockHandler(CustomBlocks plugin) {
         this.plugin = plugin;
+
+        this.miniMessage = MiniMessage.builder()
+                .tags(
+                        TagResolver.builder()
+                                .resolver(this.plugin.getPrefix())
+                                .resolver(StandardTags.color())
+                                .resolver(StandardTags.decorations())
+                                .resolver(StandardTags.font())
+                                .build()
+                ).build();
 
         final String dataFolder = this.plugin.getDataFolder().getPath();
         this.blocksFolder = new File(dataFolder + "/blocks");

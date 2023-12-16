@@ -50,4 +50,12 @@ public class CustomBlocks extends JavaPlugin {
     public CustomBlockHandler getCustomBlockHandler() {
         return customBlockHandler;
     }
+
+    /**
+     * Returns the prefix tag.
+     * @return The prefix tag.
+     */
+    public TagResolver.Single getPrefix() {
+        return prefix;
+    }
 }
