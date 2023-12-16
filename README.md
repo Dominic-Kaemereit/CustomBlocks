@@ -6,7 +6,7 @@
 
 ConfigObject
 - [x] list of registered custom tags
-- [] list of registered custom blocks
+- [x] list of registered custom blocks
 
 CustomBlockConfig
 - [x] keyName
