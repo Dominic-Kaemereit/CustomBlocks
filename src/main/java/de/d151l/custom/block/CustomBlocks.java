@@ -1,5 +1,6 @@
 package de.d151l.custom.block;
 
+import de.d151l.custom.block.blocks.CustomBlockHandler;
 import de.d151l.custom.block.tag.TagHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -8,6 +9,7 @@ public class CustomBlocks extends JavaPlugin {
     private static CustomBlocks instance;
 
     private final TagHandler tagHandler = new TagHandler(this);
+    private final CustomBlockHandler customBlockHandler = new CustomBlockHandler(this);
 
     @Override
     public void onEnable() {

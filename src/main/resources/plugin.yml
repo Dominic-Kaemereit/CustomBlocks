@@ -4,3 +4,6 @@ version: 1.0-SNAPSHOT
 author: D151l
 
 description: The plugin adds the plugins sids base for custom blocks.
+
+libraries:
+  - commons-io:commons-io:2.6

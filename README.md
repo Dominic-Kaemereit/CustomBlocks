@@ -9,23 +9,23 @@ ConfigObject
 - [] list of registered custom blocks
 
 CustomBlockConfig
-- [] keyName
-- [] noteBlockConfig
-- [] itemConfig
+- [x] keyName
+- [x] noteBlockConfig
+- [x] itemConfig
 
 NoteBlockConfig
-- [] instrument
-- [] note
-- [] powered
-- [] custom placement sound
-- [] custom break sound
+- [x] instrument
+- [x] note
+- [x] powered
+- [x] custom placement sound
+- [x] custom break sound
 
 ItemConfig
-- [] displayName
-- [] lore
-- [] material
-- [] customModelData
-- [] list of tag keys
+- [x] displayName
+- [x] lore
+- [x] material
+- [x] customModelData
+- [x] list of tag keys
 
 Tags
 - [x] key

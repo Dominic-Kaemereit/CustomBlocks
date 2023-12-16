@@ -26,6 +26,10 @@ public class TagHandler {
         }
     }
 
+    /**
+     * Returns a list of all tags.
+     * @return A list of all tags.
+     */
     public List<Tag> getTags() {
         if (CustomTagsConfig.getInstance() == null)
             throw new NullPointerException("CustomTagsConfig is not initialized yet!");
