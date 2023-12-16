@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "de.d151l.custom.block"
-version = "1.2.1-SNAPSHOT"
+version = "1.2.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
