@@ -5,7 +5,7 @@
 # Structure
 
 ConfigObject
-- [] list of registered custom tags
+- [x] list of registered custom tags
 - [] list of registered custom blocks
 
 CustomBlockConfig
@@ -28,5 +28,5 @@ ItemConfig
 - [] list of tag keys
 
 Tags
-- [] key
-- [] displayName
+- [x] key
+- [x] displayName
