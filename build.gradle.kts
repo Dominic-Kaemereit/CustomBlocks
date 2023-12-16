@@ -17,7 +17,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
 
-    compileOnly("commons-io:commons-io:2.6")
+    compileOnly("commons-io:commons-io:2.7")
     compileOnly("com.jeff-media:custom-block-data:2.2.2")
 }
 
