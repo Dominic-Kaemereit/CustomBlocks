@@ -1,12 +1,17 @@
 package de.d151l.custom.block;
 
 import de.d151l.custom.block.blocks.CustomBlockHandler;
+import de.d151l.custom.block.command.CGiveCommand;
 import de.d151l.custom.block.tag.TagHandler;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CustomBlocks extends JavaPlugin {
 
     private static CustomBlocks instance;
+
+    private final TagResolver.Single prefix = Placeholder.parsed("prefix", "§8[§6CustomBlocks§8]");
 
     private final TagHandler tagHandler = new TagHandler(this);
     private final CustomBlockHandler customBlockHandler = new CustomBlockHandler(this);
@@ -14,6 +19,8 @@ public class CustomBlocks extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        this.getCommand("cgive").setExecutor(new CGiveCommand(this));
     }
 
     @Override
@@ -34,5 +41,13 @@ public class CustomBlocks extends JavaPlugin {
      */
     public TagHandler getTagHandler() {
         return tagHandler;
+    }
+
+    /**
+     * Returns the custom block handler.
+     * @return The custom block handler.
+     */
+    public CustomBlockHandler getCustomBlockHandler() {
+        return customBlockHandler;
     }
 }
