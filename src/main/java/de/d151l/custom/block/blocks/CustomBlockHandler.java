@@ -1,5 +1,6 @@
 package de.d151l.custom.block.blocks;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import de.d151l.custom.block.CustomBlocks;
 import de.d151l.custom.block.config.CustomBlockConfig;
 import de.d151l.custom.block.config.CustomBlocksConfig;
@@ -9,9 +10,16 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.apache.commons.io.FilenameUtils;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Note;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.type.NoteBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
 import java.util.*;
@@ -27,8 +35,14 @@ public class CustomBlockHandler {
 
     private final Map<String, CustomBlocksConfig> customBlocks = new HashMap<>();
 
+    private final NamespacedKey isCustomBlockNamespacedKey;
+    private final NamespacedKey customBlockKeyNamespacedKey;
+
     public CustomBlockHandler(CustomBlocks plugin) {
         this.plugin = plugin;
+
+        this.isCustomBlockNamespacedKey = new NamespacedKey(plugin, "custom_block");
+        this.customBlockKeyNamespacedKey = new NamespacedKey(plugin, "custom_block_key");
 
         this.miniMessage = MiniMessage.builder()
                 .tags(
@@ -123,10 +137,62 @@ public class CustomBlockHandler {
 
         itemMeta.setCustomModelData(customBlockConfig.itemConfig().customModelData());
 
+        itemMeta.getPersistentDataContainer().set(this.isCustomBlockNamespacedKey, PersistentDataType.BOOLEAN, true);
+        itemMeta.getPersistentDataContainer().set(this.customBlockKeyNamespacedKey, PersistentDataType.STRING, customBlockConfig.key());
+
         itemStack.setItemMeta(itemMeta);
 
         player.getInventory().addItem(itemStack);
         return true;
+    }
+
+    /**
+     * Places a custom block at a location.
+     * @param customBlockConfig The custom block config.
+     * @param location The location to place the custom block at.
+     */
+    public void placeCustomBlock(final CustomBlockConfig customBlockConfig, final Location location) {
+        final Block block = location.getBlock();
+        block.setType(Material.NOTE_BLOCK);
+
+        final NoteBlock blockData = (NoteBlock) block.getBlockData();
+        blockData.setInstrument(customBlockConfig.noteBlockConfig().instrument());
+        blockData.setNote(new Note(customBlockConfig.noteBlockConfig().note()));
+        blockData.setPowered(customBlockConfig.noteBlockConfig().powered());
+
+        block.setBlockData(blockData);
+
+        location.getWorld().playSound(location, customBlockConfig.noteBlockConfig().placementSound(), 1, 1);
+
+        final CustomBlockData customBlockData = new CustomBlockData(block, plugin);
+        customBlockData.set(this.isCustomBlockNamespacedKey, PersistentDataType.BOOLEAN, true);
+        customBlockData.set(this.customBlockKeyNamespacedKey, PersistentDataType.STRING, customBlockConfig.key());
+    }
+
+    public boolean breakCustomBlock(final Block block) {
+        final CustomBlockData customBlockData = new CustomBlockData(block, plugin);
+        if (!customBlockData.has(this.isCustomBlockNamespacedKey, PersistentDataType.BOOLEAN))
+            return false;
+
+        final String customBlockKey = customBlockData.get(this.customBlockKeyNamespacedKey, PersistentDataType.STRING);
+        final CustomBlockConfig customBlockConfig = this.getCustomBlockConfig(customBlockKey);
+
+        if (customBlockConfig == null)
+            return false;
+
+        block.setType(Material.AIR);
+        block.getWorld().playSound(block.getLocation(), customBlockConfig.noteBlockConfig().breakSound(), 1, 1);
+        return true;
+    }
+
+    /**
+     * Returns whether a block is a custom block.
+     * @param block The block to check.
+     * @return Whether a block is a custom block.
+     */
+    public boolean isCustomBlock(final Block block) {
+        final CustomBlockData customBlockData = new CustomBlockData(block, plugin);
+        return customBlockData.has(this.isCustomBlockNamespacedKey, PersistentDataType.BOOLEAN);
     }
 
     /**
@@ -145,10 +211,43 @@ public class CustomBlockHandler {
     }
 
     /**
+     * Returns a custom block config by its key.
+     * @param key The key of the custom block.
+     * @return The custom block config.
+     */
+    public CustomBlockConfig getCustomBlockConfig(final String key) {
+        for (CustomBlocksConfig customBlocksConfig : this.customBlocks.values()) {
+            for (CustomBlockConfig customBlock : customBlocksConfig.getCustomBlocks()) {
+                if (customBlock.key().equalsIgnoreCase(key)) {
+                    return customBlock;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns a map of all custom blocks.
      * @return A map of all custom blocks.
      */
     public Map<String, CustomBlocksConfig> getCustomBlocks() {
         return customBlocks;
+    }
+
+    /**
+     * Returns the namespaced key for the isCustomBlock tag.
+     * @return The namespaced key for the isCustomBlock tag.
+     */
+    public NamespacedKey getIsCustomBlockNamespacedKey() {
+        return isCustomBlockNamespacedKey;
+    }
+
+    /**
+     * Returns the namespaced key for the customBlockKey tag.
+     * @return The namespaced key for the customBlockKey tag.
+     */
+    public NamespacedKey getCustomBlockKeyNamespacedKey() {
+        return customBlockKeyNamespacedKey;
     }
 }

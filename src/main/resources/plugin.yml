@@ -9,6 +9,7 @@ description: The plugin adds the plugins sids base for custom blocks.
 
 libraries:
   - commons-io:commons-io:2.6
+  - com.jeff-media:custom-block-data:2.2.2
 
 commands:
   cgive:
