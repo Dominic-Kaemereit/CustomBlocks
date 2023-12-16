@@ -48,8 +48,6 @@ public class NoteBlockProtectionListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        final Player player = event.getPlayer();
-
         if (event.getClickedBlock() == null)
             return;
 
