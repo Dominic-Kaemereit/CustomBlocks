@@ -1,6 +1,5 @@
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "de.d151l.custom.block"
@@ -19,12 +18,6 @@ dependencies {
 
     compileOnly("commons-io:commons-io:2.7")
     compileOnly("com.jeff-media:custom-block-data:2.2.2")
-}
-
-tasks {
-    build {
-        dependsOn(shadowJar)
-    }
 }
 
 java {
