@@ -23,3 +23,13 @@ commands:
         - givecustomblocks
         - givecb
         - gcb
+  cblocks:
+    description: Shows all custom blocks.
+    usage: /cblocks [tag]
+    permission: customblocks.block
+    aliases:
+        - customblocks
+        - customblock
+        - cblock
+        - cblocks
+        - cbs

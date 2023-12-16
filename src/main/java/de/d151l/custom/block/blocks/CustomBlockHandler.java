@@ -167,6 +167,11 @@ public class CustomBlockHandler {
         customBlockData.set(this.customBlockKeyNamespacedKey, PersistentDataType.STRING, customBlockConfig.key());
     }
 
+    /**
+     * Breaks a custom block.
+     * @param block The block to break.
+     * @return Whether the block was a custom block.
+     */
     public boolean breakCustomBlock(final Block block) {
         final CustomBlockData customBlockData = new CustomBlockData(block, plugin);
         if (!customBlockData.has(this.isCustomBlockNamespacedKey, PersistentDataType.BOOLEAN))
@@ -223,6 +228,38 @@ public class CustomBlockHandler {
         }
 
         return null;
+    }
+
+    /**
+     * Returns a list of all custom block configs.
+     * @return A list of all custom block configs.
+     */
+    public List<CustomBlockConfig> getCustomBlockConfigByTag(final String tagKey) {
+        List<CustomBlockConfig> customBlockConfigs = new ArrayList<>();
+
+        for (CustomBlocksConfig customBlocksConfig : this.customBlocks.values()) {
+            for (CustomBlockConfig customBlock : customBlocksConfig.getCustomBlocks()) {
+                if (customBlock.itemConfig().tags().contains(tagKey)) {
+                    customBlockConfigs.add(customBlock);
+                }
+            }
+        }
+
+        return customBlockConfigs;
+    }
+
+    /**
+     * Returns a list of all custom block configs.
+     * @return A list of all custom block configs.
+     */
+    public List<CustomBlockConfig> getAllCustomBlockConfig() {
+        List<CustomBlockConfig> customBlockConfigs = new ArrayList<>();
+
+        for (CustomBlocksConfig customBlocksConfig : this.customBlocks.values()) {
+            customBlockConfigs.addAll(customBlocksConfig.getCustomBlocks());
+        }
+
+        return customBlockConfigs;
     }
 
     /**

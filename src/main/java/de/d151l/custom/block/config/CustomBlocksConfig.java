@@ -3,35 +3,37 @@ package de.d151l.custom.block.config;
 import org.bukkit.Instrument;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomBlocksConfig {
 
-    private final List<CustomBlockConfig> customBlocks = List.of(
-            new CustomBlockConfig(
-                    "custom_block",
-                    new ItemConfig(
-                            "Custom Block",
-                            new String[] {
-                                    "This is a custom block."
-                            },
-                            Material.NOTE_BLOCK,
-                            1,
-                            new String[] {
-                                    "test:stone"
-                            }
-                    ),
-                    new NoteBlockConfig(
-                            Instrument.BANJO,
-                            1,
-                            false,
-                            "block_stone_place",
-                            "block_stone_break"
-                    )
-            )
-    );
+    private final List<CustomBlockConfig> customBlocks = new ArrayList<>();
 
     public CustomBlocksConfig() {
+        if (this.customBlocks.isEmpty()) {
+            this.customBlocks.add(
+                    new CustomBlockConfig(
+                            "test:stone",
+                            new ItemConfig(
+                                    "Custom Block",
+                                    new String[] {
+                                            "This is a custom block."
+                                    },
+                                    Material.STONE,
+                                    1,
+                                    List.of("test:stone")
+                            ),
+                            new NoteBlockConfig(
+                                    Instrument.PIANO,
+                                    0,
+                                    true ,
+                                    "block_stone_place",
+                                    "block_stone_break"
+                            )
+                    )
+            );
+        }
     }
 
     /**

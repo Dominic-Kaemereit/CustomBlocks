@@ -23,6 +23,13 @@ public class TagHandler {
         }
     }
 
+    public Tag getTag(String key) {
+        if (CustomTagsConfig.getInstance() == null)
+            throw new NullPointerException("CustomTagsConfig is not initialized yet!");
+
+        return this.getTags().stream().filter(tag -> tag.key().equals(key)).findFirst().orElse(null);
+    }
+
     /**
      * Returns a list of all tags.
      * @return A list of all tags.
